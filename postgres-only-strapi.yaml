@@ -1,0 +1,27 @@
+version: "3"
+services:
+  strapiDB:
+    container_name: strapiDB
+    restart: unless-stopped
+    env_file: .env
+    image: postgres:15.3-bullseye
+    environment:
+      POSTGRES_USER: ${DATABASE_USERNAME}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+      POSTGRES_DB: ${DATABASE_NAME}
+    volumes:
+      - strapi-data:/var/lib/postgresql/data/ #using a volume
+      #- ./data:/var/lib/postgresql/data/ # if you want to use a bind folder
+
+    ports:
+      - "5432:5432"
+    networks:
+      - strapi
+
+volumes:
+  strapi-data:
+
+networks:
+  strapi:
+    name: Strapi
+    driver: bridge
